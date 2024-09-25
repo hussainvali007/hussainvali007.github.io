@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locker Availability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('1.jpg'); /* Add your image path here */
+            background-size: cover; /* Make the background cover the entire page */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            padding: 20px;
+            color: white; /* Adjust text color for visibility */
+        }
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        /* Popup overlay */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        /* Popup box */
+        .popup-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .popup-box h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .popup-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .popup-box li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+        .available {
+            color: green;
+        }
+        .unavailable {
+            color: red;
+        }
+        .close-popup {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        /* Assign Locker Button */
+        .assign-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .assign-button:hover {
+            background-color: #1e88e5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Locker Availability</h1>
+        <button onclick="showPopup()">Check Availability</button>
+    </div>
+
+    <!-- Popup overlay -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-box">
+            <h2>Locker Availability</h2>
+            <ul id="locker-list">
+                <!-- Locker availability will be dynamically inserted here -->
+            </ul>
+            <button class="close-popup" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the popup
+        function showPopup() {
+            document.getElementById('popup-overlay').style.display = 'flex';
+
+            // Simulate fetching locker availability data
+            var lockers = [
+                { number: 'L101', available: true },
+                { number: 'L102', available: false },
+                { number: 'L103', available: true },
+                { number: 'L104', available: false }
+            ];
+
+            var lockerList = document.getElementById('locker-list');
+            lockerList.innerHTML = ''; // Clear previous list
+
+            // Loop through the lockers and display availability
+            lockers.forEach(function(locker) {
+                var li = document.createElement('li');
+                li.textContent = 'Locker ' + locker.number + ' - ';
+                li.className = locker.available ? 'available' : 'unavailable';
+                li.textContent += locker.available ? 'Available' : 'Unavailable';
+                
+                lockerList.appendChild(li);
+
+                // If locker is available, add "Assign Locker" button
+                if (locker.available) {
+                    var assignButton = document.createElement('button');
+                    assignButton.className = 'assign-button';
+                    assignButton.textContent = 'Assign Locker';
+                    assignButton.onclick = function() {
+                        window.location.href = "newsub.html?locker=" + locker.number; // Updated to include locker number as query parameter
+                    };
+                    lockerList.appendChild(assignButton);
+                }
+            });
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('popup-overlay').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

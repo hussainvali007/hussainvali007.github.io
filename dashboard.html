@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url('2.jpg');
+            background-size: cover; 
+            background-position: center;
+            background-attachment: fixed; 
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.7); 
+            color: white;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .user-box {
+            width: 200px;
+            padding: 20px;
+            background-color: #5493df;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            cursor: pointer; /* Make the box clickable */
+        }
+        .user-list {
+            display: none; /* Hide user list by default */
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Bank Locker</h2>
+            <ul>
+                <li>Dashboard</li>
+                <li><a href="available.html">locker availability</a></li>
+                <li><a href="lockerdetails.html">Locker Details</a></li>
+                <li><a href="modifypages.html">Pages</a></li>
+                <li><a href="settings.html">Account Settings</a></li>
+                <li><a href="terms and conditions.html">privacy & policies</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <section id="dashboard">
+                <h2>Dashboard</h2>
+                <script>
+                    // Function to fetch and display users on box click
+                    function displayUsers() {
+                        var userList = document.getElementById('user-list');
+                
+                        // Check if user list is already visible
+                        if (userList.style.display === 'block') {
+                            userList.style.display = 'none';
+                        } else {
+                            // Fetch user data from server using AJAX
+                            var xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr.status === 200) {
+                                        // Display fetched user data
+                                        userList.innerHTML = xhr.responseText;
+                                        userList.style.display = 'block'; // Show user list
+                                    } else {
+                                        alert('Error fetching user data: ' + xhr.status);
+                                    }
+                                }
+                            };
+                            xhr.open('GET', 'dashboard.php', true);
+                            xhr.send();
+                        }
+                    }
+                </script>
+                <div class="user-box" onclick="displayUsers()">
+                    Active Users <span id="user-count">
+                        <!-- PHP will populate this span with the user count -->
+                    </span>
+                </div>
+                
+                <div id="user-list" class="user-list">
+                    <!-- User list fetched dynamically via AJAX -->
+                </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Bank. All rights reserved.</p>
+    </footer>
+</body>
+</html>

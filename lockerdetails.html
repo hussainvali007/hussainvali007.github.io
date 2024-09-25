@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Locker Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+
+            /* Add background image */
+            background-image: url('business.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.9); 
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        label {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50; 
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        /* Styles for locker details */
+        .locker-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            display: none;
+        }
+        
+        .error-message {
+            color: red;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Search Your Locker</h2>
+        <form id="lockerForm">
+            <label for="number">Enter Key Number:</label>
+            <input type="text" id="number" name="number" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Locker details section -->
+        <div class="locker-details" id="lockerDetails">
+            <h3>Locker Details</h3>
+            <p><strong>key Number:</strong> <span id="lockerNumber"></span></p>
+            <p><strong>Owner Name:</strong> <span id="ownerName"></span></p>
+            <p><strong>Amount Stored:</strong> <span id="amountStored"></span></p>
+            <p><strong>Contact:</strong> <span id="contactInfo"></span></p>
+        </div>
+
+        <!-- Error message -->
+        <p class="error-message" id="errorMessage">Locker not found. Please try again.</p>
+    </div>
+
+    <script>
+        const lockers = [
+            { lockerNumber: '1001', ownerName: 'ramu', amount: '$5000', contact: '7830384999' },
+            { lockerNumber: '1002', ownerName: 'siva', amount: '$15000', contact: '9855958444' },
+            { lockerNumber: '1003', ownerName: 'mallikarjuna', amount: '$2500', contact: '7485879985' }
+        ];
+
+        // Handle form submission
+        document.getElementById('lockerForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent the form from submitting in the traditional way
+
+            const lockerNumberInput = document.getElementById('number').value;
+            const lockerDetails = document.getElementById('lockerDetails');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Clear previous results
+            lockerDetails.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Search for the locker in the data
+            const locker = lockers.find(l => l.lockerNumber === lockerNumberInput);
+
+            if (locker) {
+                // If locker is found, display the details
+                document.getElementById('lockerNumber').textContent = locker.lockerNumber;
+                document.getElementById('ownerName').textContent = locker.ownerName;
+                document.getElementById('amountStored').textContent = locker.amount;
+                document.getElementById('contactInfo').textContent = locker.contact;
+
+                lockerDetails.style.display = 'block'; // Show locker details
+            } else {
+                // If no locker is found, show the error message
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
